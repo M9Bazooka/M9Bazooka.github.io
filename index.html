@@ -587,7 +587,7 @@ button{font:inherit;color:inherit}
           <p class="pl"><a href="#video-pipeline" data-k="Video pipeline" data-st="wip" data-stack="n8n, fal.ai, FFmpeg"><span>Video pipeline</span><i></i><b>WIP</b></a></p>
           <p class="pl"><a href="#scraper" data-k="Web scraper" data-st="built" data-stack="Playwright, TypeScript"><span>Playwright scraper</span><i></i><b>BUILT</b></a></p>
           <p class="pl"><a href="#comfyui" data-k="Thumbnails" data-st="built" data-stack="ComfyUI, TypeScript"><span>ComfyUI thumbnails</span><i></i><b>BUILT</b></a></p>
-          <p class="pl"><a href="#dissertation" data-k="Red teaming" data-st="wip" data-stack="Python, Llama 3.1"><span>LLM red teaming</span><i></i><b>WIP</b></a></p>
+          <p class="pl"><a href="#dissertation" data-k="Red teaming" data-st="built" data-stack="Python, Llama 3.1"><span>LLM red teaming</span><i></i><b>BUILT</b></a></p>
           <p class="pl rule"></p>
           <p class="pl tot"><span>LIVE SITES</span><b>3</b></p>
           <p class="pl tot"><span>TENDERED</span><b>CLAUDE CODE, CURSOR</b></p>
@@ -970,15 +970,14 @@ button{font:inherit;color:inherit}
         <summary><span class="r-name">ComfyUI thumbnail workflow</span><span class="r-desc">Product thumbnails where the product's own pixels survive</span><span class="status s-built">Built</span><span class="pm" aria-hidden="true"></span></summary>
         <div class="r-body"><div>
           <ul>
-            <li><strong>The model never redraws the product.</strong> A generated version of a charger gets the ports wrong, and for affiliate content that's a lie. So it cuts the product out of the real photo, generates only the scene behind it, and composites the original back at full resolution. The client then checks every product pixel against the source and <strong>refuses to save the image if one differs by more than 1/255</strong>. Across every render made while building it, the maximum difference was 0.</li>
+            <li><strong>The model never redraws the product.</strong> A generated version of a charger gets the ports wrong, and for affiliate content that's a lie. So it cuts the product out of the real photo, generates only the scene behind it, and composites the original back at full resolution.</li>
             <li>One photo and a short brief produce a Pinterest pin, a square and a vertical frame, each with a contact shadow and optional headline.</li>
             <li>Every image is written with a provenance file beside it: workflow hash, model, seed, sampler, steps, prompt and timings. The seed comes from the product id, so a rerun gives the same image unless the brief changed.</li>
             <li>Two graphs ship: one using stock nodes only, so it runs after a clean ComfyUI install, and one using custom nodes for better lighting. A missing node gives a clear message instead of a stack trace.</li>
             <li>A mock ComfyUI server replays recorded responses, so the client and every error path are tested in CI with no GPU and no model downloads.</li>
             <li>Built to fit an 8 GB card, and it drops into Affiliate Content Studio as a render step beside Higgsfield.</li>
           </ul>
-          <p class="f-stack">ComfyUI, TypeScript, SDXL-class models, Affiliate Content Studio. Measured on an RTX 4060: about 7–8 s per image warm, 4.33 GB peak VRAM. 101 test cases.</p>
-          <p class="f-links"><a href="https://github.com/M9Bazooka/comfy-thumbs" target="_blank" rel="noopener">Read the code on GitHub</a></p>
+          <p class="f-stack">ComfyUI, TypeScript, SDXL-class models, Affiliate Content Studio.</p>
         </div></div>
       </details>
       <details class="row" id="triage">
@@ -991,7 +990,7 @@ button{font:inherit;color:inherit}
         </div></div>
       </details>
       <details class="row" id="dissertation">
-        <summary><span class="r-name">Memory-guided red teaming of LLMs</span><span class="r-desc">MSc dissertation, Aston University, supervised by Dr Sourav Saha</span><span class="status s-progress">In progress</span><span class="pm" aria-hidden="true"></span></summary>
+        <summary><span class="r-name">Memory-guided red teaming of LLMs</span><span class="r-desc">MSc dissertation, Aston University, supervised by Dr Sourav Saha</span><span class="status s-built">Complete</span><span class="pm" aria-hidden="true"></span></summary>
         <div class="r-body"><div>
           <ul>
             <li>A pre-registered AI safety study: does a layered attack memory make an automated red-teamer better against text-only LLMs, and does the gain come from retrieval or just from having examples in context?</li>
@@ -999,7 +998,7 @@ button{font:inherit;color:inherit}
             <li>An epsilon-greedy bandit per risk category against a locally hosted, 4-bit quantised Llama 3.1 8B, scored by a pinned GPT-4o judge. Every request comes verbatim from the StrongREJECT benchmark.</li>
             <li>The pilot caught a template bug leaking category labels into attacks. I fixed it and filed the fix as a formal pre-registration amendment.</li>
           </ul>
-          <p class="f-stack">502 passing tests. Python, Hugging Face Transformers, OpenAI API, pytest.</p>
+          <p class="f-stack">Completed 2026. 502 passing tests. Python, Hugging Face Transformers, OpenAI API, pytest.</p>
         </div></div>
       </details>
       <details class="row" id="night-audit">
@@ -1115,7 +1114,7 @@ button{font:inherit;color:inherit}
       <p>What I can build matters most. Here's the paper trail.</p>
     </div>
     <ul>
-      <li><b>MSc Artificial Intelligence, Aston University</b><span>2025 to 2026, in progress</span></li>
+      <li><b>MSc Artificial Intelligence, Aston University</b><span>Completed 2026</span></li>
       <li><b>BCA with AI specialisation, KL University</b><span>GPA 9.14 out of 10</span></li>
       <li><b>AWS Certified AI Practitioner</b><span>2025</span></li>
       <li><b>IBM AI Developer; Automation Anywhere RPA Advanced</b><span>Certificates</span></li>
