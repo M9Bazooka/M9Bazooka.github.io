@@ -585,8 +585,8 @@ button{font:inherit;color:inherit}
           <p class="pl"><a href="#tap2dinein" data-k="Tap2DineIn" data-st="built" data-stack="Express, Stripe"><span>Tap2DineIn</span><i></i><b>BUILT</b></a></p>
           <p class="pl"><a href="#ai-os" data-k="AI OS" data-st="built" data-stack="LangGraph, Ollama"><span>AI OS agents</span><i></i><b>BUILT</b></a></p>
           <p class="pl"><a href="#video-pipeline" data-k="Video pipeline" data-st="wip" data-stack="n8n, fal.ai, FFmpeg"><span>Video pipeline</span><i></i><b>WIP</b></a></p>
-          <p class="pl"><a href="#scraper" data-k="Web scraper" data-st="wip" data-stack="Playwright"><span>Playwright scraper</span><i></i><b>WIP</b></a></p>
-          <p class="pl"><a href="#comfyui" data-k="Thumbnails" data-st="wip" data-stack="ComfyUI"><span>ComfyUI thumbnails</span><i></i><b>WIP</b></a></p>
+          <p class="pl"><a href="#scraper" data-k="Web scraper" data-st="built" data-stack="Playwright, TypeScript"><span>Playwright scraper</span><i></i><b>BUILT</b></a></p>
+          <p class="pl"><a href="#comfyui" data-k="Thumbnails" data-st="built" data-stack="ComfyUI, TypeScript"><span>ComfyUI thumbnails</span><i></i><b>BUILT</b></a></p>
           <p class="pl"><a href="#dissertation" data-k="Red teaming" data-st="wip" data-stack="Python, Llama 3.1"><span>LLM red teaming</span><i></i><b>WIP</b></a></p>
           <p class="pl rule"></p>
           <p class="pl tot"><span>LIVE SITES</span><b>3</b></p>
@@ -954,23 +954,31 @@ button{font:inherit;color:inherit}
         </div></div>
       </details>
       <details class="row" id="scraper">
-        <summary><span class="r-name">Playwright web scraper</span><span class="r-desc">Open-source listing and price tracker that feeds n8n</span><span class="status s-progress">In progress</span><span class="pm" aria-hidden="true"></span></summary>
+        <summary><span class="r-name">Listing watcher</span><span class="r-desc">Playwright price and stock tracker that feeds n8n. Public, code included</span><span class="status s-built">Built</span><span class="pm" aria-hidden="true"></span></summary>
         <div class="r-body"><div>
           <ul>
-            <li>A Playwright scraper and monitor that tracks product listings and prices and sends changes into n8n workflows.</li>
-            <li>Unlike my client work, this repo will be fully public, code included.</li>
+            <li>Watches product pages, extracts the fields named in a config file, and records what changed: price up or down, back in stock, gone. Changes go to an n8n webhook, signed and queued, so nothing is lost while n8n is down.</li>
+            <li><strong>It notices when it breaks.</strong> If a selector matches nothing, or matches two things, it keeps the last known value, records the miss and marks the target unhealthy. Two misses in a row and the target leaves the rotation until a person looks at it. That's the difference between a scraper and one you can still run in six months.</li>
+            <li><strong>It scrapes nobody to test itself.</strong> The repo ships a small fixture site and a script that breaks it on purpose, so the whole suite runs offline and gives the same answer every time.</li>
+            <li><strong>Good manners are the design, not a setting.</strong> robots.txt is obeyed with no override flag, one request per domain at a time, no logins and no captchas. It extracts only the configured fields and fails loudly if a value looks like someone's email or phone number.</li>
+            <li>An optional Claude fallback proposes a new selector when one breaks. It's off by default and never edits the config on its own: proposals wait for approval.</li>
           </ul>
-          <p class="f-stack">Being built now. Playwright, n8n.</p>
+          <p class="f-stack">TypeScript, Playwright, Zod, n8n. Prices stored as integer minor units, never floats.</p>
         </div></div>
       </details>
       <details class="row" id="comfyui">
-        <summary><span class="r-name">ComfyUI thumbnail workflow</span><span class="r-desc">Product images and thumbnails for Affiliate Content Studio</span><span class="status s-progress">In progress</span><span class="pm" aria-hidden="true"></span></summary>
+        <summary><span class="r-name">ComfyUI thumbnail workflow</span><span class="r-desc">Product thumbnails where the product's own pixels survive</span><span class="status s-built">Built</span><span class="pm" aria-hidden="true"></span></summary>
         <div class="r-body"><div>
           <ul>
-            <li>A ComfyUI workflow that generates product images and video thumbnails.</li>
-            <li>Plugs into Affiliate Content Studio as another step in its render pipeline.</li>
+            <li><strong>The model never redraws the product.</strong> A generated version of a charger gets the ports wrong, and for affiliate content that's a lie. So it cuts the product out of the real photo, generates only the scene behind it, and composites the original back at full resolution. The client then checks every product pixel against the source and <strong>refuses to save the image if one differs by more than 1/255</strong>. Across every render made while building it, the maximum difference was 0.</li>
+            <li>One photo and a short brief produce a Pinterest pin, a square and a vertical frame, each with a contact shadow and optional headline.</li>
+            <li>Every image is written with a provenance file beside it: workflow hash, model, seed, sampler, steps, prompt and timings. The seed comes from the product id, so a rerun gives the same image unless the brief changed.</li>
+            <li>Two graphs ship: one using stock nodes only, so it runs after a clean ComfyUI install, and one using custom nodes for better lighting. A missing node gives a clear message instead of a stack trace.</li>
+            <li>A mock ComfyUI server replays recorded responses, so the client and every error path are tested in CI with no GPU and no model downloads.</li>
+            <li>Built to fit an 8 GB card, and it drops into Affiliate Content Studio as a render step beside Higgsfield.</li>
           </ul>
-          <p class="f-stack">Being built now. ComfyUI, Affiliate Content Studio.</p>
+          <p class="f-stack">ComfyUI, TypeScript, SDXL-class models, Affiliate Content Studio. Measured on an RTX 4060: about 7–8 s per image warm, 4.33 GB peak VRAM. 101 test cases.</p>
+          <p class="f-links"><a href="https://github.com/M9Bazooka/comfy-thumbs" target="_blank" rel="noopener">Read the code on GitHub</a></p>
         </div></div>
       </details>
       <details class="row" id="triage">
@@ -1084,14 +1092,14 @@ button{font:inherit;color:inherit}
   <div class="wrap">
     <div class="sec-head">
       <h2 id="kit-h">Toolkit</h2>
-      <p>What I build with. Dashed items are projects I'm building right now.</p>
+      <p>What I build with, all of it on something I've shipped.</p>
     </div>
     <div class="kit">
       <div class="kit-g"><h3>Building with AI</h3><ul><li>Claude Code</li><li>Cursor</li><li>Anthropic API</li><li>OpenAI API</li><li>Model Context Protocol</li><li>LiteLLM</li></ul></div>
       <div class="kit-g"><h3>Agents and LLM engineering</h3><ul><li>LangGraph</li><li>LangChain</li><li>LangSmith</li><li>Tool calling</li><li>Structured outputs</li><li>Retrieval</li><li>Grounding checks</li><li>Guardrails</li></ul></div>
-      <div class="kit-g"><h3>Media and image models</h3><ul><li>Higgsfield</li><li>fal.ai (Flux, Kling)</li><li>ElevenLabs</li><li>FFmpeg</li><li class="wip">ComfyUI</li></ul></div>
+      <div class="kit-g"><h3>Media and image models</h3><ul><li>Higgsfield</li><li>fal.ai (Flux, Kling)</li><li>ElevenLabs</li><li>FFmpeg</li><li>ComfyUI</li></ul></div>
       <div class="kit-g"><h3>Open models</h3><ul><li>Hugging Face Transformers</li><li>Ollama</li><li>Llama 3.1 (4-bit)</li><li>Qwen 3</li><li>PyTorch</li></ul></div>
-      <div class="kit-g"><h3>Automation and scraping</h3><ul><li>n8n (self-hosted)</li><li>Automation Anywhere RPA</li><li>httpx and BeautifulSoup</li><li class="wip">Playwright</li></ul></div>
+      <div class="kit-g"><h3>Automation and scraping</h3><ul><li>n8n (self-hosted)</li><li>Automation Anywhere RPA</li><li>httpx and BeautifulSoup</li><li>Playwright</li></ul></div>
       <div class="kit-g"><h3>Backend and data</h3><ul><li>Python</li><li>FastAPI</li><li>Node.js</li><li>Express</li><li>PostgreSQL</li><li>Prisma</li><li>SQLAlchemy</li><li>Redis</li><li>Socket.io</li></ul></div>
       <div class="kit-g"><h3>Frontend</h3><ul><li>React</li><li>Next.js</li><li>TypeScript</li><li>Tailwind CSS</li><li>PWAs</li><li>Arabic RTL layouts</li></ul></div>
       <div class="kit-g"><h3>Infrastructure</h3><ul><li>Docker</li><li>GitHub Actions</li><li>AWS</li><li>Railway</li><li>Vercel</li><li>Cloudflare</li><li>Supabase</li></ul></div>
